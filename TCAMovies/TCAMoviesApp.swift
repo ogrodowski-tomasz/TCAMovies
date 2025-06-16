@@ -1,17 +1,13 @@
-//
-//  TCAMoviesApp.swift
-//  TCAMovies
-//
-//  Created by itcraft on 16/06/2025.
-//
-
+import ComposableArchitecture
 import SwiftUI
 
 @main
 struct TCAMoviesApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MovieListView(store: Store(initialState: MovieListReducer.State(), reducer: {
+                MovieListReducer()
+            }))
         }
     }
 }

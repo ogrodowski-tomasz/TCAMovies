@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		24DA290A2E00323A0062516F /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 24DA29092E00323A0062516F /* ComposableArchitecture */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		24DA28EC2E002BDD0062516F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24DA290A2E00323A0062516F /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +117,7 @@
 			);
 			name = TCAMovies;
 			packageProductDependencies = (
+				24DA29092E00323A0062516F /* ComposableArchitecture */,
 			);
 			productName = TCAMovies;
 			productReference = 24DA28DE2E002BDD0062516F /* TCAMovies.app */;
@@ -195,6 +201,9 @@
 			);
 			mainGroup = 24DA28D52E002BDD0062516F;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				24DA29082E00323A0062516F /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 24DA28DF2E002BDD0062516F /* Products */;
 			projectDirPath = "";
@@ -550,6 +559,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		24DA29082E00323A0062516F /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.20.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		24DA29092E00323A0062516F /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 24DA29082E00323A0062516F /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 24DA28D62E002BDD0062516F /* Project object */;
 }
