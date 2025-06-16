@@ -28,6 +28,7 @@ struct MovieListReducer {
     }
     
     @Dependency(\.movieNetworkManager) private var movieNetworkManager
+    @Dependency(\.dataRepository) private var dataRepository
     
     enum Action: Equatable {
         case onAppear
@@ -49,6 +50,9 @@ struct MovieListReducer {
                     },
                     .run { send in
                         try await fetchPopular(send)
+                    },
+                    .run { _ in
+                        let _ = try dataRepository.fetchAll(ofType: FavoriteMovie.self)
                     }
                 )
             case let .moviesReceived(movies, type):
