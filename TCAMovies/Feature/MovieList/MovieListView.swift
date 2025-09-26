@@ -26,10 +26,9 @@ struct MovieListView: View {
     private func section(title: String, movies: [SingleMovieModel]) -> some View {
         Section(title) {
             ForEach(movies) { movie in
-                MovieRowView(movie: movie)
-                    .onTapGesture {
-                        store.send(.navigateToDetails(movie))
-                    }
+                MovieRowView(movie: movie) { selectedMovie in
+                    store.send(.navigateToDetails(selectedMovie))
+                }
             }
         }
         .listRowSeparator(.hidden)

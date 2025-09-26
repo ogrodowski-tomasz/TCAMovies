@@ -3,16 +3,13 @@ import SwiftUI
 struct MovieRowView: View {
     
     let movie: SingleMovieModel
-    
-    var imagePath: URL? {
-        URL(imagePath: movie.posterPath)
-    }
+    let onSelected: (SingleMovieModel) -> Void
     
     var side: CGFloat { 85 }
     
     var body: some View {
         HStack(alignment: .center) {
-            AsyncImage(url: imagePath) { phase in
+            AsyncImage(url: movie.imageURL(for: .poster)) { phase in
                 switch phase {
                 case .success(let image):
                     image
@@ -41,6 +38,9 @@ struct MovieRowView: View {
             Spacer()
         }
         .background(Color.secondary.opacity(0.1))
+        .onTapGesture {
+            onSelected(movie)
+        }
     }
 }
 
@@ -48,7 +48,7 @@ struct MovieRowView: View {
 #Preview {
     List {
         ForEach(0..<7, id: \.self) { _ in
-            MovieRowView(movie: .stub)
+            MovieRowView(movie: .stub) { _ in }
         }
     }.listStyle(.plain)
 }

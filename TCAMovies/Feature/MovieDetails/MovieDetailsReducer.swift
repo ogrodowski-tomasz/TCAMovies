@@ -29,6 +29,7 @@ struct MovieDetailsReducer {
     }
     
     @Dependency(\.httpClient) private var httpClient
+    @Dependency(\.date.now) private var now
     @Dependency(\.favoriteRepository) private var favoriteRepository
     
     var body: some ReducerOf<Self> {
@@ -47,7 +48,7 @@ struct MovieDetailsReducer {
                         await send(.checkDatabase)
                     } else {
                         let dtoModel = state.movie
-                        let newFavorite = FavoriteMovie(dtoModel: dtoModel)
+                        let newFavorite = FavoriteMovie(dtoModel: dtoModel, dateCreated: self.now)
                         try await favoriteRepository.add(newFavorite)
                         await send(.checkDatabase)
                     }

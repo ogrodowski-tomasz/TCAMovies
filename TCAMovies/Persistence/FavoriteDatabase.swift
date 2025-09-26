@@ -2,7 +2,6 @@ import SwiftData
 import Dependencies
 import Foundation
 
-//@MainActor
 struct FavoriteRepository {
     var fetchAll: @Sendable  () async throws -> [FavoriteMovie]
     var fetchById: @Sendable (Int) async throws -> FavoriteMovie?
@@ -17,13 +16,21 @@ struct FavoriteRepositoryKey: DependencyKey {
             fetchAll: {
                 @Dependency(\.databaseService) var database
                 let context = try database.context()
-                let descriptor = FetchDescriptor<FavoriteMovie>(sortBy: [SortDescriptor(\.title)])
+                let descriptor = FetchDescriptor<FavoriteMovie>(
+                    sortBy: [SortDescriptor(
+                        \.dateCreated,
+                         order: .reverse
+                    )]
+                )
                 let result = try context.fetch(descriptor)
                 return result
-            }, fetchById: { movieId in
+            },
+            fetchById: { movieId in
                 @Dependency(\.databaseService) var database
                 let context = try database.context()
-                let descriptor = FetchDescriptor<FavoriteMovie>(predicate: #Predicate{ $0.movieId == movieId })
+                let descriptor = FetchDescriptor<FavoriteMovie>(
+                    predicate: #Predicate{ $0.movieId == movieId
+                    })
                 let result = try context.fetch(descriptor).first
                 return result
 

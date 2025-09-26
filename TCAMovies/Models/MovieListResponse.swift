@@ -44,6 +44,22 @@ struct SingleMovieModel: Codable, Identifiable, Equatable {
 }
 
 extension SingleMovieModel {
+    enum ImageType {
+        case poster
+        case backdrop
+    }
+    
+    func imageURL(for type: ImageType) -> URL? {
+        switch type {
+        case .poster:
+            return URL(imagePath: self.posterPath)
+        case .backdrop:
+            return URL(imagePath: self.backdropPath)
+        }
+    }
+}
+
+extension SingleMovieModel {
     
     static let stub: SingleMovieModel = .init(
         adult: false,
