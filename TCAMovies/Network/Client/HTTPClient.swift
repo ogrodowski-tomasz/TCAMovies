@@ -2,11 +2,11 @@ import ComposableArchitecture
 import Foundation
 
 struct HTTPClient {
-    private var loadData: @Sendable (_ endpoint: AppEndpoint) async throws -> Data
+    var loadData: @Sendable (_ endpoint: AppEndpoint) async throws -> Data
     
-    init(loadData: @Sendable @escaping (_ endpoint: AppEndpoint) async throws -> Data) {
-        self.loadData = loadData
-    }
+//    init(loadData: @Sendable @escaping (_ endpoint: AppEndpoint) async throws -> Data) {
+//        self.loadData = loadData
+//    }
 }
 
 extension HTTPClient {
@@ -21,6 +21,7 @@ extension HTTPClient {
             print("DEBUG: Successfully decoded response from endpoint [\(endpoint)]")
             return result
         } catch {
+            fatalError("Decoding error \(error)")
             throw NetworkError.decodingError(error)
         }
     }

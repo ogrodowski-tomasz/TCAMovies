@@ -62,37 +62,33 @@ extension HTTPClient: DependencyKey {
     }
 }
 
+struct StaticDataClient {
+    static func load(_ endpoint: AppEndpoint) throws -> Data {
+        guard
+            let file = endpoint.stubDataFilename,
+            !file.isEmpty,
+            let path = Bundle.main.path(forResource: file, ofType: "json"),
+            let data = FileManager.default.contents(atPath: path)
+        else {
+            throw NetworkError.invalidURL
+        }
+        return data
+    }
+}
+
 // MARK: - TEST VALUE
 
 extension HTTPClient: TestDependencyKey {
     static var testValue: HTTPClient {
-        HTTPClient(
-            loadData: { endpoint in
-                guard
-                    let file = endpoint.stubDataFilename,
-                    !file.isEmpty,
-                    let path = Bundle.main.path(forResource: file, ofType: "json"),
-                    let data = FileManager.default.contents(atPath: path)
-                else {
-                    throw NetworkError.invalidURL
-                }
-                return data
-            }
-        )
+        HTTPClient(loadData: { endpoint in
+            try StaticDataClient.load(endpoint)
+        })
     }
     
     static var previewValue: HTTPClient {
         HTTPClient(
             loadData: { endpoint in
-                guard
-                    let file = endpoint.stubDataFilename,
-                    !file.isEmpty,
-                    let path = Bundle.main.path(forResource: file, ofType: "json"),
-                    let data = FileManager.default.contents(atPath: path)
-                else {
-                    throw NetworkError.invalidURL
-                }
-                return data
+                try StaticDataClient.load(endpoint)
             }
         )
     }

@@ -33,13 +33,19 @@ extension Database: DependencyKey {
 }
 
 extension Database: TestDependencyKey {
-    public static var previewValue = Self.noop
+    public static var previewValue = Self.inMemoryContainer
     
-    public static let testValue = Self(
-        context: unimplemented("\(Self.self).context")
-    )
+    public static let testValue = Self.inMemoryContainer
     
-    static let noop = Self(
-        context: unimplemented("\(Self.self).context")
+    static let inMemoryContainer = Self(
+        context: {
+            do {
+                let config = ModelConfiguration(isStoredInMemoryOnly: true)
+                let container = try ModelContainer(for: FavoriteMovie.self, configurations: config)
+                return ModelContext(container)
+            } catch {
+                fatalError("Failed to create test container. \(error.localizedDescription)")
+            }
+        }
     )
 }

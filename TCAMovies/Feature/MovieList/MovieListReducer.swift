@@ -48,21 +48,18 @@ struct MovieListReducer {
                     .run { send in
                         let result = try await httpClient.load(MovieEndpoint.nowPlaying, decodeToType: MovieListResponse.self)
                         await send(.nowPlayingFetched(result.results))
-                    },
+                    }
+                    ,
                     .run { send in
-                        do {
-                            let result = try await httpClient.load(MovieEndpoint.popular, decodeToType: MovieListResponse.self)
-                            await send(.popularFetched(result.results))
-                        } catch {
-                            print("DEBUG: errro \(error)")
-                        }
-                    },
+                        let result = try await httpClient.load(MovieEndpoint.popular, decodeToType: MovieListResponse.self)
+                        await send(.popularFetched(result.results))
+                    }
+                    ,
                     .run { send in
                         let result = try await httpClient.load(MovieEndpoint.topRated, decodeToType: MovieListResponse.self)
                         await send(.topRatedFetched(result.results))
                     }
                 )
-                .cancellable(id: CancelId.fetchMovies)
                 
             case .nowPlayingFetched(let movies):
                 state.nowPlaying = Array(movies.prefix(5))
