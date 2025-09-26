@@ -81,3 +81,5 @@ extension SingleMovieModel {
     )
         
 }
+
+extension SingleMovieModel: MovieListItemRepresentable { }

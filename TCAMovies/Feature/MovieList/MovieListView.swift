@@ -27,7 +27,7 @@ struct MovieListView: View {
         Section(title) {
             ForEach(movies) { movie in
                 MovieRowView(movie: movie) { selectedMovie in
-                    store.send(.navigateToDetails(selectedMovie))
+                    store.send(.navigateToDetails(movie))
                 }
             }
         }
@@ -35,6 +35,7 @@ struct MovieListView: View {
         .listRowInsets(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))
     }
 }
+
 
 #Preview {
     MovieListView(

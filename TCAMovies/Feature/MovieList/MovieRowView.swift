@@ -2,25 +2,14 @@ import SwiftUI
 
 struct MovieRowView: View {
     
-    let movie: SingleMovieModel
-    let onSelected: (SingleMovieModel) -> Void
+    let movie: any MovieListItemRepresentable
+    let onSelected: (any MovieListItemRepresentable) -> Void
     
     var side: CGFloat { 85 }
     
     var body: some View {
         HStack(alignment: .center) {
-            AsyncImage(url: movie.imageURL(for: .poster)) { phase in
-                switch phase {
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFit()
-                default:
-                    Rectangle()
-                }
-            }
-            .frame(width: side, height: side * 3/2)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
+            MoviePosterView(imageURL: URL(imagePath: movie.posterPath))
             
             VStack(alignment: .leading, spacing: 5) {
                 Text(movie.title)
@@ -48,7 +37,7 @@ struct MovieRowView: View {
 #Preview {
     List {
         ForEach(0..<7, id: \.self) { _ in
-            MovieRowView(movie: .stub) { _ in }
+            MovieRowView(movie: SingleMovieModel.stub) { _ in }
         }
     }.listStyle(.plain)
 }

@@ -6,11 +6,11 @@ struct MovieDetailsReducer {
     
     @ObservableState
     struct State: Equatable {
-        let movie: SingleMovieModel
+        let movieId: Int
         var favoriteMovie: FavoriteMovie? = nil
         
-        init(movie: SingleMovieModel) {
-            self.movie = movie
+        init(movieId: Int) {
+            self.movieId = movieId
         }
         
         var isFavorite: Bool {
@@ -36,7 +36,7 @@ struct MovieDetailsReducer {
         Reduce { state, action in
             switch action {
             case .checkDatabase:
-                let id = state.movie.id
+                let id = state.movieId
                 return .run { send in
                     let favoriteModel = try await favoriteRepository.fetchById(id)
                     await send(.favoriteFetched(favoriteModel))
@@ -47,8 +47,9 @@ struct MovieDetailsReducer {
                         try await favoriteRepository.delete(alreadyExistingFavorite)
                         await send(.checkDatabase)
                     } else {
-                        let dtoModel = state.movie
-                        let newFavorite = FavoriteMovie(dtoModel: dtoModel, dateCreated: self.now)
+                        let dtoModel = state.movieId
+//                        let newFavorite = FavoriteMovie(dtoModel: dtoModel, dateCreated: self.now)
+                        let newFavorite = FavoriteMovie(movieId: dtoModel, title: "Stub Title", posterPath: "stub", releaseDate: "stub", voteAverage: 1, dateCreated: self.now)
                         try await favoriteRepository.add(newFavorite)
                         await send(.checkDatabase)
                     }

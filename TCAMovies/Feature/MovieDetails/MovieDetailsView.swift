@@ -5,7 +5,7 @@ struct MovieDetailsView: View {
     let store: StoreOf<MovieDetailsReducer>
     var body: some View {
         VStack {
-            Text("Details for movieId \(store.movie.id)")
+            Text("Details for movieId \(store.movieId)")
             
             Button {
                 store.send(.favoritesButtonTapped)
@@ -24,5 +24,5 @@ struct MovieDetailsView: View {
 }
 
 #Preview {
-    MovieDetailsView(store: Store(initialState: MovieDetailsReducer.State(movie: SingleMovieModel.stub), reducer: MovieDetailsReducer.init))
+    MovieDetailsView(store: Store(initialState: MovieDetailsReducer.State(movieId: SingleMovieModel.stub.id), reducer: MovieDetailsReducer.init))
 }

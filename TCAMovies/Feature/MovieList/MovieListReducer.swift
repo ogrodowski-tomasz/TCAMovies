@@ -24,7 +24,7 @@ struct MovieListReducer {
     }
     
     
-    enum Action: Equatable {
+    enum Action {
         case onAppear
         case nowPlayingFetched([SingleMovieModel])
         case popularFetched([SingleMovieModel])
@@ -78,10 +78,36 @@ struct MovieListReducer {
             case .movieDetails:
                 return .none
             case .navigateToDetails(let selectedMovie):
-                state.movieDetails = .init(movie: selectedMovie)
+                state.movieDetails = .init(movieId: selectedMovie.id)
                 return .none
             }
         }
         .ifLet(\.$movieDetails, action: \.movieDetails, destination: MovieDetailsReducer.init)
     }
+}
+
+extension MovieListReducer.Action: Equatable {
+//    static func == (lhs: MovieListReducer.Action, rhs: MovieListReducer.Action) -> Bool {
+//        switch (lhs, rhs) {
+//        case (.onAppear, .onAppear):
+//            return true
+//            case (.nowPlayingFetched(let lhsList), .nowPlayingFetched(let rhsList)):
+//            return lhsList == rhsList
+//            
+//        case (.popularFetched(let lhsList), .popularFetched(let rhsList)):
+//            return lhsList == rhsList
+//            
+//        case (.topRatedFetched(let lhsList), .topRatedFetched(let rhsList)):
+//            return lhsList == rhsList
+//        case (.movieDetails(let lhsAction) , .movieDetails(let rhsAction)):
+//            return lhsAction == rhsAction
+//            case (.navigateToDetails(let lhsItem as SingleMovieModel), .navigateToDetails(let rhsItem as SingleMovieModel)):
+//            return lhsItem == rhsItem
+//            
+//        case (.navigateToDetails(let lhsItem as FavoriteMovie), .navigateToDetails(let rhsItem as FavoriteMovie)):
+//        return lhsItem == rhsItem
+//        default:
+//            return false
+//        }
+//    }
 }

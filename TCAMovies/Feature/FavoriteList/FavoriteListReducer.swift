@@ -7,12 +7,18 @@ struct FavoriteListReducer {
     @ObservableState
     struct State: Equatable {
         var favorites: [FavoriteMovie] = []
+        
+        @Presents var movieDetails: MovieDetailsReducer.State? = nil
     }
     
     
     enum Action: Equatable {
         case chceckDatabase
         case favoritesFetched([FavoriteMovie])
+        
+        case movieDetails(PresentationAction<MovieDetailsReducer.Action>)
+        case navigateToDetails(FavoriteMovie)
+
     }
     
     enum CancelId: Hashable {
@@ -33,7 +39,14 @@ struct FavoriteListReducer {
             case .favoritesFetched(let fetchedFavorites):
                 state.favorites = fetchedFavorites
                 return .none
+                
+            case .navigateToDetails(let selectedFavorite):
+                state.movieDetails = .init(movieId: selectedFavorite.movieId)
+                return .none
+            case .movieDetails:
+                return .none
             }
         }
+        .ifLet(\.$movieDetails, action: \.movieDetails, destination: MovieDetailsReducer.init)
     }
 }

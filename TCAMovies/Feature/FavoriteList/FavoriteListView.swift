@@ -2,19 +2,31 @@ import ComposableArchitecture
 import SwiftUI
 
 struct FavoriteListView: View {
-    let store: StoreOf<FavoriteListReducer>
+    @Bindable var store: StoreOf<FavoriteListReducer>
     var body: some View {
-        List {
-            if store.favorites.isEmpty {
-                Text("NO favorites")
-            } else {
-                ForEach(store.favorites) { movie in
-                    Text(movie.title)
+        NavigationStack {
+            List {
+                if store.favorites.isEmpty {
+                    Text("NO favorites")
+                } else {
+                    ForEach(store.favorites) { movie in
+                        MovieRowView(movie: movie) { selectedMovie in
+                            store.send(.navigateToDetails(movie))
+                        }
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))
+                        
+                    }
                 }
             }
-        }
-        .onAppear {
-            store.send(.chceckDatabase)
+            .navigationTitle("Favorites")
+            .listStyle(.plain)
+            .onAppear {
+                store.send(.chceckDatabase)
+            }
+            .navigationDestination(item: $store.scope(state: \.movieDetails, action: \.movieDetails)) { store in
+                MovieDetailsView(store: store)
+            }
         }
     }
 }

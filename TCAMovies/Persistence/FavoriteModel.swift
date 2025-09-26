@@ -7,11 +7,11 @@ final class FavoriteMovie {
     @Attribute(.unique) var movieId: Int
     var title: String = "Unknown"
     var posterPath: String? = nil
-    var releaseDate: String? = nil
+    var releaseDate: String = "Unknown"
     var voteAverage: Double? = nil
     var dateCreated: Date
 
-    init(movieId: Int, title: String = "Unknown", posterPath: String? = nil, releaseDate: String? = nil, voteAverage: Double? = nil, dateCreated: Date) {
+    init(movieId: Int, title: String = "Unknown", posterPath: String? = nil, releaseDate: String = "Unknown", voteAverage: Double? = nil, dateCreated: Date) {
         self.movieId = movieId
         self.title = title
         self.posterPath = posterPath
@@ -27,5 +27,11 @@ final class FavoriteMovie {
         self.releaseDate = dtoModel.releaseDate
         self.voteAverage = dtoModel.voteAverage
         self.dateCreated = dateCreated
+    }
+}
+
+extension FavoriteMovie: MovieListItemRepresentable {
+    var id: Int {
+        movieId
     }
 }
