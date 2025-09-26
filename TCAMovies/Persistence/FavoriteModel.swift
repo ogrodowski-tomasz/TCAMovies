@@ -20,7 +20,7 @@ final class FavoriteMovie {
         self.dateCreated = dateCreated
     }
     
-    init(dtoModel: SingleMovieModel, dateCreated: Date) {
+    init(dtoModel: MovieDetailsApiModel, dateCreated: Date) {
         self.movieId = dtoModel.id
         self.title = dtoModel.title
         self.posterPath = dtoModel.posterPath

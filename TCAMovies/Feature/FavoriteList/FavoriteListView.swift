@@ -25,7 +25,7 @@ struct FavoriteListView: View {
                 store.send(.chceckDatabase)
             }
             .navigationDestination(item: $store.scope(state: \.movieDetails, action: \.movieDetails)) { store in
-                MovieDetailsView(store: store)
+                MovieDetailsScreen(store: store)
             }
         }
     }

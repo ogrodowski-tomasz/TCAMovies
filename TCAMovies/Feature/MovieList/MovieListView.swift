@@ -18,7 +18,7 @@ struct MovieListView: View {
                 store.send(.onAppear)
             }
             .navigationDestination(item: $store.scope(state: \.movieDetails, action: \.movieDetails)) { store in
-                MovieDetailsView(store: store)
+                MovieDetailsScreen(store: store)
             }
         }
     }
