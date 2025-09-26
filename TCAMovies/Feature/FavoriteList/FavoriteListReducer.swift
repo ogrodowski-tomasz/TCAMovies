@@ -6,12 +6,13 @@ struct FavoriteListReducer {
     
     @ObservableState
     struct State: Equatable {
-        
+        var favorites: [FavoriteMovie] = []
     }
     
     
     enum Action: Equatable {
-        
+        case chceckDatabase
+        case favoritesFetched([FavoriteMovie])
     }
     
     enum CancelId: Hashable {
@@ -19,11 +20,19 @@ struct FavoriteListReducer {
     }
     
     @Dependency(\.httpClient) private var httpClient
+    @Dependency(\.favoriteRepository) private var favoriteRepository
     
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-                #warning("TODO: Implement movie details fetching and adding to favorites")
+            case .chceckDatabase:
+                return .run { send in
+                    let results = try await favoriteRepository.fetchAll()
+                    await send(.favoritesFetched(results))
+                }
+            case .favoritesFetched(let fetchedFavorites):
+                state.favorites = fetchedFavorites
+                return .none
             }
         }
     }

@@ -17,6 +17,9 @@ struct MovieDetailsView: View {
                 }
             }
         }
+        .onAppear {
+            store.send(.checkDatabase)
+        }
     }
 }
 
